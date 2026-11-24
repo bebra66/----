@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@acid_minb — Розробка сайтів та Telegram Mini Apps</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--alt:#f4f4f6;--txt:#111;--mut:#55555e;--brd:#e2e2e6}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',-apple-system,sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);line-height:1.5;overflow-x:hidden;position:relative}
+.bg-grid{position:fixed;inset:0;z-index:-1;pointer-events:none;background-color:#fff;background-image:linear-gradient(to right,rgba(0,0,0,.045) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,.045) 1px,transparent 1px),linear-gradient(to right,rgba(0,0,0,.09) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,.09) 1px,transparent 1px);background-size:24px 24px,24px 24px,120px 120px,120px 120px;animation:gridMove 18s linear infinite}
+.wrap{width:100%;max-width:1140px;margin:0 auto;padding:0 24px}
+.hdr{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--brd);z-index:100}
+.nav{height:72px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:20px;font-weight:800;color:var(--txt);text-decoration:none;letter-spacing:-.5px}
+.logo span{color:#777}
+.links{display:flex;gap:28px}
+.links a{text-decoration:none;color:var(--mut);font-size:14px;font-weight:500;transition:.2s}
+.links a:hover{color:var(--txt)}
+.btn-o{text-decoration:none;color:var(--txt);border:1.5px solid var(--txt);padding:9px 18px;border-radius:10px;font-size:13.5px;font-weight:600;transition:.2s}
+.btn-o:hover{background:var(--txt);color:#fff;transform:translateY(-1px)}
+.hero{padding:64px 0 80px;animation:fadeIn .7s ease}
+.hgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.bdg{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--brd);color:var(--txt);font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:20px;margin-bottom:20px}
+.dot-g{width:8px;height:8px;background:#111;border-radius:50%;animation:pulse 2s infinite}
+.hero h1{font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.15;letter-spacing:-1.2px;margin-bottom:20px}
+.hdesc{font-size:17px;color:var(--mut);margin-bottom:32px;max-width:520px}
+.hact{display:flex;gap:14px;margin-bottom:44px}
+.btn-p{background:#111;color:#fff;text-decoration:none;padding:15px 28px;border-radius:12px;font-size:15px;font-weight:600;transition:.2s;display:inline-block}
+.btn-p:hover{background:#333;transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.18)}
+.btn-s{background:#fff;border:1px solid var(--brd);color:var(--txt);text-decoration:none;padding:15px 28px;border-radius:12px;font-size:15px;font-weight:600;transition:.2s;display:inline-block}
+.btn-s:hover{background:#f0f0f4;transform:translateY(-2px)}
+.stats{display:flex;gap:36px;padding-top:26px;border-top:1px solid var(--brd)}
+.st strong{display:block;font-size:24px;font-weight:800}
+.st span{font-size:13px;color:var(--mut)}
+.mascot-card{width:100%;height:410px;background:#fff;border:2px solid #111;border-radius:24px;box-shadow:8px 8px 0 #111;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:20px;cursor:pointer;transition:.2s;user-select:none}
+.mascot-card:hover{transform:translate(-2px,-2px);box-shadow:10px 10px 0 #111}
+.mascot-card:active{transform:translate(3px,3px);box-shadow:4px 4px 0 #111}
+.mascot-badge{align-self:flex-start;background:#111;color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px}
+.mascot-svg{width:100%;max-width:300px;height:auto}
+.mascot-hint{font-size:13px;font-weight:600;color:#55555e;background:#f4f4f6;padding:8px 16px;border-radius:12px;border:1px solid #e2e2e6;text-align:center}
+.m-paw-l{animation:typePaw .45s infinite alternate ease-in-out}
+.m-paw-r{animation:typePaw .45s infinite alternate-reverse ease-in-out}
+.m-ear-l{transform-origin:115px 72px;animation:earWiggle 3.5s infinite}
+.m-ear-r{transform-origin:205px 72px;animation:earWiggle 3.5s infinite reverse}
+.m-eyes{transform-origin:160px 98px;animation:blinkEyes 4s infinite}
+.marquee{background:#111;color:#fff;padding:14px 0;overflow:hidden;white-space:nowrap}
+.m-track{display:inline-block;animation:scrollText 22s linear infinite;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+.m-track span{margin:0 24px;color:#777}
+.sec{padding:84px 0;border-top:1px solid var(--brd);background:rgba(255,255,255,.75);backdrop-filter:blur(2px)}
+.sec-alt{background:rgba(244,244,246,.82);backdrop-filter:blur(2px)}
+.shdr{margin-bottom:44px;max-width:620px}
+.shdr h2{font-size:clamp(26px,3.2vw,36px);font-weight:800;letter-spacing:-.8px;margin-bottom:10px}
+.shdr p{font-size:16px;color:var(--mut)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.empty-card{background:#fff;border:2px dashed #c8c8d0;border-radius:20px;padding:32px 24px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;transition:.25s}
+.empty-card:hover{border-color:#111;border-style:solid;transform:translateY(-6px);box-shadow:0 16px 32px rgba(0,0,0,.08)}
+.empty-num{width:40px;height:40px;background:var(--alt);border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;margin-bottom:18px;transition:.25s}
+.empty-card:hover .empty-num{background:#111;color:#fff}
+.empty-card h3,.scard h3{font-size:20px;font-weight:700;margin-bottom:8px}
+.empty-card p{font-size:14px;color:var(--mut);margin-bottom:20px}
+.empty-link{font-size:13.5px;font-weight:700;color:#111;text-decoration:none}
+.proto-nav{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.p-tab{background:#fff;border:1.5px solid #111;color:#111;padding:11px 18px;border-radius:12px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s}
+.p-tab.active,.p-tab:hover{background:#111;color:#fff}
+.proto-screen{display:none;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;background:#fff;border:2px solid #111;border-radius:24px;padding:32px;box-shadow:8px 8px 0 #111;animation:fadeIn .3s ease}
+.proto-screen.active{display:grid}
+.phone-frame{max-width:310px;width:100%;margin:0 auto;border:2.5px solid #111;border-radius:28px;padding:14px;background:#fff;box-shadow:5px 5px 0 #111}
+.pf-top{display:flex;justify-content:space-between;font-size:11px;font-weight:700;padding-bottom:10px;border-bottom:1px solid #e2e2e6;margin-bottom:12px}
+.pf-hero{background:#111;color:#fff;padding:16px;border-radius:16px;margin-bottom:12px}
+.pf-tag{display:inline-block;background:#fff;color:#111;font-size:9px;font-weight:800;padding:2px 7px;border-radius:6px;margin-bottom:6px}
+.pf-hero h4{font-size:16px;margin-bottom:4px}
+.pf-hero p{font-size:11.5px;color:#ccc}
+.pf-item{display:flex;justify-content:space-between;align-items:center;border:1px solid #e2e2e6;padding:10px 12px;border-radius:12px;margin-bottom:8px;font-size:13px}
+.pf-btn{background:#111;color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer}
+.browser-frame{border:2px solid #111;border-radius:16px;overflow:hidden;background:#fff;box-shadow:5px 5px 0 #111}
+.bf-bar{background:#f4f4f6;padding:10px 14px;border-bottom:1.5px solid #111;display:flex;align-items:center;gap:6px}
+.bf-bar span{width:9px;height:9px;border-radius:50%;background:#111;display:inline-block}
+.bf-url{margin-left:8px;background:#fff;border:1px solid #ccc;border-radius:6px;padding:2px 10px;font-size:11px;color:#555;flex:1}
+.bf-body{padding:18px}
+.bf-nav{display:flex;justify-content:space-between;font-size:13px;padding-bottom:12px;border-bottom:1px solid #eee;margin-bottom:14px}
+.bf-hero{background:#f7f7f8;border:1px solid #e2e2e6;padding:18px;border-radius:14px;margin-bottom:14px}
+.bf-hero h4{font-size:17px;margin-bottom:6px}
+.bf-hero p{font-size:12.5px;color:#555;margin-bottom:12px}
+.bf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bf-card{border:1.5px solid #111;border-radius:10px;padding:10px;font-size:12.5px;text-align:center}
+.proto-info h3{font-size:24px;font-weight:800;margin-bottom:12px}
+.proto-info p{font-size:15px;color:#444;margin-bottom:24px;line-height:1.6}
+.scard{background:#fff;border:1px solid var(--brd);border-radius:22px;padding:34px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}
+.scard:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(0,0,0,.07)}
+.scard.feat{border:2px solid #111;position:relative}
+.sbadge{position:absolute;top:-12px;right:24px;background:#111;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:12px}
+.sprice{font-size:30px;font-weight:800;margin:16px 0;white-space:nowrap;letter-spacing:-.5px}
+.slist{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:11px}
+.slist li{font-size:14.5px;color:var(--mut);display:flex;align-items:center;gap:10px}
+.slist li::before{content:"✓";color:#111;font-weight:800}
+.egrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.ecard{background:#fff;border:1px solid var(--brd);border-radius:18px;padding:24px;transition:.2s}
+.ecard:hover{transform:translateY(-4px);border-color:#111}
+.enum{width:32px;height:32px;background:#111;color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:16px}
+.ecard h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.ecard p{font-size:13.5px;color:var(--mut)}
+.cta{background:#111;color:#fff;border-radius:28px;padding:56px 40px;text-align:center;margin:48px 0 20px}
+.cta h2{font-size:clamp(26px,3.5vw,38px);font-weight:800;margin-bottom:14px}
+.cta p{font-size:16px;color:#a1a1aa;max-width:520px;margin:0 auto 28px}
+
+.cta .btn-p{background:#fff;color:#111}
+.ftr{border-top:1px solid var(--brd);padding:32px 0;text-align:center;font-size:13.5px;color:var(--mut);background:#fff}
+.dog-widget{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;cursor:pointer}
+.dog-bubble{background:#111;color:#fff;font-size:12px;font-weight:600;padding:8px 14px;border-radius:14px 14px 4px 14px;margin-bottom:8px;box-shadow:0 8px 20px rgba(0,0,0,.18);max-width:210px;text-align:right}
+.dog-avatar{width:68px;height:68px;background:#fff;border:2px solid #111;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(0,0,0,.15);transition:transform .2s}
+.dog-avatar:hover{transform:scale(1.08)}
+.dog-avatar.jump{animation:dogJump .45s ease}
+@keyframes gridMove{0%{background-position:0 0,0 0,0 0,0 0}100%{background-position:120px 120px,120px 120px,120px 120px,120px 120px}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollText{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+@keyframes typePaw{0%{transform:translateY(0)}100%{transform:translateY(-7px)}}
+@keyframes earWiggle{0%,80%,100%{transform:rotate(0deg)}85%{transform:rotate(-8deg)}95%{transform:rotate(6deg)}}
+@keyframes blinkEyes{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes dogJump{0%{transform:translateY(0) scale(1)}40%{transform:translateY(-18px) scale(1.1) rotate(-6deg)}70%{transform:translateY(0) scale(.95)}100%{transform:translateY(0) scale(1)}}
+@media(max-width:900px){.links{display:none}.hero{padding:40px 0 60px}.hgrid,.pgrid,.sgrid,.proto-screen,.bf-grid{grid-template-columns:1fr}.egrid{grid-template-columns:1fr 1fr}.hact{flex-direction:column}.btn-p,.btn-s{text-align:center}.cta{padding:40px 24px}}
+@media(max-width:540px){.egrid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+<div class="bg-grid"></div>
+<header class="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo">WEB<span>.</span>DEV</a>
+    <nav class="links">
+      <a href="#cases">Портфоліо</a>
+      <a href="#demos">Прототипи</a>
+      <a href="#services">Послуги та ціни</a>
+      <a href="#steps">Як я працюю</a>
+    </nav>
+    <a href="https://t.me/acid_minb" target="_blank" class="btn-o">Написати в Telegram</a>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="wrap hgrid">
+      <div>
+        <div class="bdg"><span class="dot-g"></span>Відкритий до перших комерційних замовлень</div>
+        <h1>Створюю сучасні сайти та Telegram Mini Apps на замовлення</h1>
+        <p class="hdesc">Пишу чистий код на HTML, CSS та JavaScript. Роблю зручні лендінги й вебдодатки всередині Telegram без зайвої води та за чесну ціну.</p>
+        <div class="hact">
+          <a href="#demos" class="btn-p">Поклікати прототипи</a>
+          <a href="https://t.me/acid_minb" target="_blank" class="btn-s">Написати в Telegram</a>
+        </div>
+        <div class="stats">
+          <div class="st"><strong>0</strong><span>виконаних замовлень (старт)</span></div>
+          <div class="st"><strong>90%+</strong><span>адаптивність під екрани</span></div>
+          <div class="st"><strong>2–14 днів</strong><span>термін розробки</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="mascot-card" id="heroMascot" title="Натисни на мене!">
+          <div class="mascot-badge">● LIVE CODING // @acid_minb</div>
+          <svg class="mascot-svg" viewBox="0 0 320 260" fill="none">
+            <line x1="25" y1="220" x2="295" y2="220" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+            <path class="m-ear-l" d="M115 72 C88 48, 76 92, 104 104 Z" fill="#111" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+            <path class="m-ear-r" d="M205 72 C232 48, 244 92, 216 104 Z" fill="#111" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M98 218 C98 165, 120 142, 160 142 C200 142, 222 165, 222 218 Z" fill="#111"/>
+            <circle cx="160" cy="105" r="46" fill="#fff" stroke="#111" stroke-width="4"/>
+            <g class="m-eyes">
+              <circle cx="143" cy="98" r="5.5" fill="#111"/><circle cx="177" cy="98" r="5.5" fill="#111"/>
+              <circle cx="145" cy="96" r="2" fill="#fff"/><circle cx="179" cy="96" r="2" fill="#fff"/>
+            </g>
+            <ellipse cx="160" cy="113" rx="8" ry="5.5" fill="#111"/>
+            <path d="M148 124 Q160 133 172 124" stroke="#111" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <ellipse class="m-paw-l" cx="115" cy="195" rx="16" ry="11" fill="#fff" stroke="#111" stroke-width="4"/>
+            <ellipse class="m-paw-r" cx="205" cy="195" rx="16" ry="11" fill="#fff" stroke="#111" stroke-width="4"/>
+            <rect x="108" y="148" width="104" height="68" rx="8" fill="#fff" stroke="#111" stroke-width="4"/>
+            <rect x="96" y="214" width="128" height="6" rx="3" fill="#111"/>
+            <text id="laptopCode" x="160" y="187" text-anchor="middle" fill="#111" font-size="16" font-weight="800" font-family="monospace">&lt;CODE/&gt;</text>
+          </svg>
+          <div class="mascot-hint" id="mascotStatus">Песик верстає твій сайт... (натисни на нього)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="marquee">
+    <div class="m-track">
+      <b>HTML5 & CSS3</b> <span>•</span> <b>JAVASCRIPT</b> <span>•</span> <b>TELEGRAM MINI APPS</b> <span>•</span> <b>АДАПТИВНІСТЬ 90%+</b> <span>•</span> <b>ЦІНИ ВІД $10</b> <span>•</span>
+      <b>HTML5 & CSS3</b> <span>•</span> <b>JAVASCRIPT</b> <span>•</span> <b>TELEGRAM MINI APPS</b> <span>•</span> <b>АДАПТИВНІСТЬ 90%+</b> <span>•</span> <b>ЦІНИ ВІД $10</b> <span>•</span>
+    </div>
+  </div>
+  <section id="cases" class="sec sec-alt">
+    <div class="wrap">
+      <div class="shdr">
+        <h2>Виконані роботи</h2>
+        <p>Зараз я формую портфоліо перших реальних замовлень, тому роблю проєкти з максимальною увагою до деталей та за приємним прайсом.</p>
+      </div>
+      <div class="pgrid">
+        <div class="empty-card">
+          <div><div class="empty-num">01</div><h3>Тут може бути ваш сайт</h3><p>Перше місце у моєму портфоліо вільне. Розроблю лендінг для вашого бізнесу чи послуг з нуля.</p></div>
+          <a href="https://t.me/acid_minb" target="_blank" class="empty-link">Замовити першим ➔</a>
+        </div>
+        <div class="empty-card">
+          <div><div class="empty-num">02</div><h3>Ваш Telegram Mini App</h3><p>Створимо зручний міні-додаток або візитівку для вашого каналу чи спільноти.</p></div>
+          <a href="https://t.me/acid_minb" target="_blank" class="empty-link">Обговорити ідею ➔</a>
+        </div>
+        <div class="empty-card">
+          <div><div class="empty-num">03</div><h3>Місце для вашого проєкту</h3><p>Готовий взятися за нестандартну задачу, верстку або доопрацювання існуючого сайту.</p></div>
+          <a href="https://t.me/acid_minb" target="_blank" class="empty-link">Написати мені ➔</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="demos" class="sec">
+    <div class="wrap">
+      <div class="shdr">
+        <h2>Інтерактивні прототипи</h2>
+        <p>Обери тип сайту та поклікай його живу міні-версію прямо тут, щоб побачити, як працюватиме твій майбутній проєкт.</p>
+      </div>
+      <div class="proto-nav">
+        <button type="button" class="p-tab active" data-proto="p1">1. Telegram Mini App ($35–$95)</button>
+        <button type="button" class="p-tab" data-proto="p2">2. Лендінг під ключ ($100–$250)</button>
+        <button type="button" class="p-tab" data-proto="p3">3. Складний E-Commerce ($350–$720)</button>
+      </div>
+      <div class="proto-screen active" id="p1">
+        <div class="phone-frame">
+          <div class="pf-top"><span>● Telegram Bot App</span><span>9:41</span></div>
+          <div class="pf-hero"><div class="pf-tag">KAVA.SPOT</div><h4>Замовлення кави в 2 кліки</h4><p>Відкривається прямо всередині Telegram без встановлення програм.</p></div>
+          <div class="pf-item"><div><b>Флет Вайт (250 мл)</b><br><small>100% Арабіка</small></div><button type="button" class="pf-btn" onclick="this.textContent='✓ У кошику'">+ $2</button></div>
+          <div class="pf-item"><div><b>Мигдалевий круасан</b><br><small>Свіжа випічка</small></div><button type="button" class="pf-btn" onclick="this.textContent='✓ У кошику'">+ $2.5</button></div>
+        </div>
+        <div class="proto-info">
+          <h3>Як працює Telegram Mini App</h3>
+          <p>Ідеально для блогерів, кав'ярень та сервісів. Має вбудовану навігацію, анімації кнопок та миттєву відправку замовлення власнику в особисті повідомлення.</p>
+          <a href="https://t.me/acid_minb" target="_blank" class="btn-p">Замовити такий Mini App ➔</a>
+        </div>
+      </div>
+      <div class="proto-screen" id="p2">
+        <div class="browser-frame">
+          <div class="bf-bar"><span></span><span></span><span></span><div class="bf-url">https://your-business.com</div></div>
+          <div class="bf-body">
+            <div class="bf-nav"><b>BARBER.PRO</b><span>Запис онлайн</span></div>
+            <div class="bf-hero"><h4>Чоловічі стрижки та догляд у центрі міста</h4><p>Перший візит зі знижкою 20%. Обирай майстра та зручний час за 30 секунд.</p><button type="button" class="pf-btn" onclick="this.textContent='✓ Ви записані!'">Записатися на стрижку</button></div>
+            <div class="bf-grid">
+              <div class="bf-card"><b>Стрижка</b><br><small>45 хв • $15</small></div>
+              <div class="bf-card"><b>Борода</b><br><small>30 хв • $10</small></div>
+              <div class="bf-card"><b>Комплекс</b><br><small>75 хв • $22</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="proto-info">
+          <h3>Продаючий Лендінг під ключ</h3>
+          <p>Односторінковий сайт із високою конверсією: чіткий офер, прайс-лист, переваги та кнопка швидкого зв'язку. Повністю адаптований під смартфони та ПК.</p>
+          <a href="https://t.me/acid_minb" target="_blank" class="btn-p">Замовити лендінг ➔</a>
+        </div>
+      </div>
+      <div class="proto-screen" id="p3">
+        <div class="browser-frame">
+          <div class="bf-bar"><span></span><span></span><span></span><div class="bf-url">https://store-platform.ua/catalog</div></div>
+          <div class="bf-body">
+            <div class="bf-nav"><b>TECH.STORE</b><span>Кошик (<b id="p3-cnt">0</b>)</span></div>
+            <div class="bf-grid">
+              <div class="bf-card"><b>Навушники Pro</b><br><small>$120</small><br><button type="button" class="pf-btn" style="margin-top:8px;width:100%" onclick="let c=document.getElementById('p3-cnt');c.textContent=Number(c.textContent)+1">Купити</button></div>
+              <div class="bf-card"><b>Клавіатура Mech</b><br><small>$85</small><br><button type="button" class="pf-btn" style="margin-top:8px;width:100%" onclick="let c=document.getElementById('p3-cnt');c.textContent=Number(c.textContent)+1">Купити</button></div>
+              <div class="bf-card"><b>Мікрофон Studio</b><br><small>$150</small><br><button type="button" class="pf-btn" style="margin-top:8px;width:100%" onclick="let c=document.getElementById('p3-cnt');c.textContent=Number(c.textContent)+1">Купити</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="proto-info">
+          <h3>Складний вебпроєкт (до 14 днів)</h3>
+          <p>Повноцінний інтернет-магазин або сервіс із багатьма сторінками, живим підрахунком кошика, фільтрами товарів та підключенням оплати карткою.</p>
+          <a href="https://t.me/acid_minb" target="_blank" class="btn-p">Обговорити проєкт ➔</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="services" class="sec sec-alt">
+    <div class="wrap">
+      <div class="shdr">
+        <h2>Послуги та ціни</h2>
+        <p>Прозора вартість у доларах під будь-який масштаб завдання: від швидких правок за $10 до складних проєктів за $720.</p>
+      </div>
+      <div class="sgrid">
+        <div class="scard">
+          <div>
+            <h3>Правки та верстка блоків</h3>
+            <p style="font-size:14.5px;color:var(--mut)">Швидке виправлення помилок, адаптація під телефон або створення окремої секції на сайті.</p>
+            <div class="sprice">від $10</div>
+            <ul class="slist"><li>Виправлення багів у HTML / CSS</li><li>Адаптив під мобільні пристрої</li><li>Термін виконання: 1–2 дні</li></ul>
+          </div>
+          <a href="https://t.me" target="_blank" class="btn-s" style="text-align:center">Замовити від $10</a>
+        </div>
+        <div class="scard feat">
+          <div class="sbadge">Популярно</div>
+          <div>
+            <h3>Telegram Mini App</h3>
+            <p style="font-size:14.5px;color:var(--mut)">Інтерактивний вебдодаток або вітрина послуг, що відкривається прямо всередині вашого бота.</p>
+            <div class="sprice">$35 – $95</div>
+            <ul class="slist"><li>Індивідуальний дизайн та анімації</li><li>Підключення до Telegram-бота</li><li>Термін виконання: 2–4 дні</li></ul>
+          </div>
+          <a href="https://t.me" target="_blank" class="btn-p" style="text-align:center">Замовити Mini App</a>
+        </div>
+        <div class="scard">
+          <div>
+            <h3>Лендінг під ключ</h3>
+            <p style="font-size:14.5px;color:var(--mut)">Продаючий односторінковий сайт для товарів, послуг або особистого бренду з чистою версткою.</p>
+            <div class="sprice">$100 – $250</div>
+            <ul class="slist"><li>Продумана структура та копірайтинг</li><li>90%+ адаптивність під усі екрани</li><li>Термін виконання: 4–7 днів</li></ul>
+          </div>
+          <a href="https://t.me" target="_blank" class="btn-s" style="text-align:center">Замовити лендінг</a>
+        </div>
+        <div class="scard">
+          <div>
+            <h3>Складний вебпроєкт</h3>
+            <p style="font-size:14.5px;color:var(--mut)">Багатосторінковий корпоративний сайт, каталог або повноцінний інтернет-магазин із кошиком.</p>
+            <div class="sprice">$350 – $720</div>
+            <ul class="slist"><li>Унікальна архітектура та кастомний JS</li><li>Інтеграція оплат, форм та аналітики</li><li>Повний супровід і запуск за 14 днів</li></ul>
+          </div>
+          <a href="https://t.me" target="_blank" class="btn-s" style="text-align:center">Обговорити проєкт</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="steps" class="sec">
+    <div class="wrap">
+      <div class="shdr">
+        <h2>Як я працюю</h2>
+        <p>Маю хороший досвід у веб-розробці та роблю всі проєкти самостійно від першого рядка коду до запуску.</p>
+      </div>
+      <div class="egrid">
+        <div class="ecard"><div class="enum">01</div><h4>Технічне завдання</h4><p>Ви описуєте, який сайт потрібен. Я уточнюю деталі та фіксую ціну від $10 до $720.</p></div>
+        <div class="ecard"><div class="enum">02</div><h4>Самостійна розробка</h4><p>Я власноруч верстаю сторінки, налаштовую адаптивність та інтерактивні елементи.</p></div>
+        <div class="ecard"><div class="enum">03</div><h4>Складні рішення</h4><p>Для нестандартної логіки на JS підключаю ШІ-інструменти, щоб код працював бездоганно.</p></div>
+        <div class="ecard"><div class="enum">04</div><h4>Здача та запуск</h4><p>Перевіряємо роботу з телефону і ПК, після чого я допомагаю опублікувати сайт в інтернеті.</p></div>
+      </div>
+      <div class="cta">
+        <h2>Маєте ідею для сайту?</h2>
+        <p>Напишіть мені в Telegram (@acid_minb) — обговоримо задачу, підберемо стиль та зробимо якісний продукт.</p>
+        <a href="https://t.me" target="_blank" class="btn-p">Написати в Telegram ➔</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="ftr"><div class="wrap">© 2026 @acid_minb — Приватна розробка сайтів та Telegram Mini Apps</div></footer>
+<div class="dog-widget" id="dogWidget">
+  <div class="dog-bubble" id="dogText">Гав! Натисни на мене 🐾</div>
+  <div class="dog-avatar" id="dogAvatar">
+    <svg width="46" height="46" viewBox="0 0 100 100" fill="none">
+      <path d="M28 32 C16 20, 12 42, 24 48 Z" fill="#111" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M72 32 C84 20, 88 42, 76 48 Z" fill="#111" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="50" cy="54" r="28" fill="#fff" stroke="#111" stroke-width="4"/>
+      <circle cx="39" cy="48" r="4" fill="#111"/><circle cx="61" cy="48" r="4" fill="#111"/>
+      <circle cx="40.5" cy="46.5" r="1.5" fill="#fff"/><circle cx="62.5" cy="46.5" r="1.5" fill="#fff"/>
+      <ellipse cx="50" cy="59" rx="5.5" ry="4" fill="#111"/>
+      <path d="M43 66 Q50 72 57 66" stroke="#111" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M47 68 Q50 76 53 68" fill="#111" stroke="#111" stroke-width="2.5"/>
+    </svg>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){const w=document.getElementById('dogWidget'),a=document.getElementById('dogAvatar'),t=document.getElementById('dogText'),p=["Гав! Зроблю сайт від $10 🦴","Пиши в ТГ: @acid_minb 🐾","Адаптив під усі телефони!","Складні проєкти за 14 днів ⚡","Тикай ще, мені подобається!"];let i=0;function bark(){try{const C=window.AudioContext||window.webkitAudioContext,c=new C(),o=c.createOscillator(),g=c.createGain();o.type='triangle';o.frequency.setValueAtTime(280,c.currentTime);o.frequency.exponentialRampToValueAtTime(480,c.currentTime+.06);o.frequency.exponentialRampToValueAtTime(190,c.currentTime+.16);g.gain.setValueAtTime(.15,c.currentTime);g.gain.exponentialRampToValueAtTime(.01,c.currentTime+.17);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.17)}catch(e){}}w.addEventListener('click',function(){i=(i+1)%p.length;t.textContent=p[i];a.classList.remove('jump');void a.offsetWidth;a.classList.add('jump');bark()});const hm=document.getElementById('heroMascot'),lc=document.getElementById('laptopCode'),ms=document.getElementById('mascotStatus'),st=[{code:'<html>',text:'Створюю чисту структуру...'},{code:'{ CSS }',text:'Налаштовую чорно-білий стиль...'},{code:'JS ( )',text:'Додаю живі анімації...'},{code:'READY!',text:'Готово! Пиши в ТГ @acid_minb 🐾'}];let si=0;if(hm){hm.addEventListener('click',function(){si=(si+1)%st.length;lc.textContent=st[si].code;ms.textContent=st[si].text;bark()})}document.querySelectorAll('.p-tab').forEach(function(tab){tab.addEventListener('click',function(){document.querySelectorAll('.p-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.proto-screen').forEach(s=>s.classList.remove('active'));tab.classList.add('active');document.getElementById(tab.getAttribute('data-proto')).classList.add('active')})})});
+</script>
+</body>
+</html>
